@@ -1,0 +1,24 @@
+{
+  "name": "@tabcat/orbit-db-set",
+  "version": "1.0.0",
+  "description": "an orbit-db store as an ES6 Set",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tabcat/orbit-db-set.git"
+  },
+  "keywords": [
+    "orbit-db",
+    "orbit-db-store",
+    "set"
+  ],
+  "author": "andersb@tuta.io",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tabcat/orbit-db-set/issues"
+  },
+  "homepage": "https://github.com/tabcat/orbit-db-set#readme"
+}
