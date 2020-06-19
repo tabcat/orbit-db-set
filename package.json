@@ -6,8 +6,11 @@
   "files": [
     "/src"
   ],
+  "standard": {
+    "env": "mocha"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env TEST=all mocha"
   },
   "repository": {
     "type": "git",
@@ -23,5 +26,12 @@
   "bugs": {
     "url": "https://github.com/tabcat/orbit-db-set/issues"
   },
-  "homepage": "https://github.com/tabcat/orbit-db-set#readme"
+  "homepage": "https://github.com/tabcat/orbit-db-set#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "mocha": "^8.0.1",
+    "orbit-db": "^0.24.1",
+    "orbit-db-test-utils": "^0.9.4",
+    "rimraf": "^3.0.2"
+  }
 }
