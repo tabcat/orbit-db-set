@@ -12,17 +12,16 @@ class SetStore extends Store {
     if (!options.Index) Object.assign(options, { Index: SetIndex })
     super(ipfs, id, dbname, options)
     this._type = type
-
-    this.entries = this.index.entries
-    this.forEach = this.index.forEach
-    this.has = this.index.has
-    this.keys = this.index.keys
-    this.values = this.index.values
   }
 
   static get type () { return type }
 
   get size () { return this.index.size }
+  get has () { return this.index.has.bind(this.index) }
+  get keys () { return this.index.keys.bind(this.index) }
+  get values () { return this.index.values.bind(this.index) }
+  get entries () { return this.index.entries.bind(this.index) }
+  get forEach () { return this.index.forEach.bind(this.index) }
 
   async add (value) {
     return this._addOperation({ op: opcodes.ADD, value })

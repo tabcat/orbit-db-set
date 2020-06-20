@@ -66,44 +66,44 @@ Object.keys(testAPIs).forEach(API => {
       })
 
       it('.add insert value to set', async function () {
-        assert.strict.deepEqual([...db.index.values()], [])
+        assert.strict.deepEqual([...db.values()], [])
         await db.add(1)
         await db.add(2)
         await db.add(3)
-        assert.strict.deepEqual([...db.index.values()], [3, 2, 1])
+        assert.strict.deepEqual([...db.values()], [3, 2, 1])
         await db.add(1)
         await db.add(2)
         await db.add(3)
         await db.add(4)
-        assert.strict.deepEqual([...db.index.values()], [4, 3, 2, 1])
+        assert.strict.deepEqual([...db.values()], [4, 3, 2, 1])
       })
 
       it('.delete remove value from set', async function () {
-        assert.strict.deepEqual([...db.index.values()], [])
+        assert.strict.deepEqual([...db.values()], [])
         await db.add(1)
         await db.add(2)
         await db.add(3)
         await db.delete(3)
-        assert.strict.deepEqual([...db.index.values()], [2, 1])
+        assert.strict.deepEqual([...db.values()], [2, 1])
         await db.add(1)
         await db.add(2)
         await db.add(3)
         await db.delete(4)
-        assert.strict.deepEqual([...db.index.values()], [3, 2, 1])
+        assert.strict.deepEqual([...db.values()], [3, 2, 1])
       })
 
       it('.clear remove all values from set', async function () {
-        assert.strict.deepEqual([...db.index.values()], [])
+        assert.strict.deepEqual([...db.values()], [])
         await db.add(1)
         await db.add(2)
         await db.add(3)
         await db.clear()
-        assert.strict.deepEqual([...db.index.values()], [])
+        assert.strict.deepEqual([...db.values()], [])
         await db.add(1)
         await db.clear()
         await db.add(2)
         await db.add(3)
-        assert.strict.deepEqual([...db.index.values()], [3, 2])
+        assert.strict.deepEqual([...db.values()], [3, 2])
       })
 
       it('.size mirrors set.size', async function () {
@@ -111,23 +111,30 @@ Object.keys(testAPIs).forEach(API => {
       })
 
       it('.entries mirrors set.entries', async function () {
-        assert.strict.equal(db.entries, db.index.entries)
+        assert.strict.deepEqual(db.entries(), db.index.entries())
       })
 
       it('.forEach mirrors set.forEach', async function () {
-        assert.strict.equal(db.forEach, db.index.forEach)
+        const a = []
+        const b = []
+        await db.add(1)
+        await db.add(2)
+        await db.add(3)
+        db.forEach(x => a.push(x))
+        db.index.forEach(x => b.push(x))
+        assert.strict.deepEqual(a, b)
       })
 
       it('.has mirrors set.has', async function () {
-        assert.strict.equal(db.has, db.index.has)
+        assert.strict.equal(db.has(), db.index.has())
       })
 
       it('.keys mirrors set.keys', async function () {
-        assert.strict.equal(db.keys, db.index.keys)
+        assert.strict.deepEqual(db.keys(), db.index.keys())
       })
 
       it('.values mirrors set.values', async function () {
-        assert.strict.equal(db.values, db.index.values)
+        assert.strict.deepEqual(db.values(), db.index.values())
       })
     })
   })
