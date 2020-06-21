@@ -52,6 +52,8 @@ Object.keys(testAPIs).forEach(API => {
     })
 
     describe('Set Store Instance', function () {
+      const meta = { yo: 123 }
+
       beforeEach(async () => {
         const options = {
           replicate: false,
@@ -67,43 +69,47 @@ Object.keys(testAPIs).forEach(API => {
 
       it('.add insert value to set', async function () {
         assert.strict.deepEqual([...db.values()], [])
-        await db.add(1)
+        await db.add(1, { meta })
         await db.add(2)
         await db.add(3)
-        assert.strict.deepEqual([...db.values()], [3, 2, 1])
+        await db.add(4)
+        assert.strict.deepEqual([...db.values()], [4, 3, 2, 1])
         await db.add(1)
         await db.add(2)
         await db.add(3)
         await db.add(4)
         assert.strict.deepEqual([...db.values()], [4, 3, 2, 1])
+        assert.strict.deepEqual(db._oplog.values[0].payload.meta, meta)
       })
 
       it('.delete remove value from set', async function () {
         assert.strict.deepEqual([...db.values()], [])
+        await db.delete(3, { meta })
+        await db.add(1)
+        await db.add(2)
+        await db.add(3)
+        assert.strict.deepEqual([...db.values()], [3, 2, 1])
         await db.add(1)
         await db.add(2)
         await db.add(3)
         await db.delete(3)
         assert.strict.deepEqual([...db.values()], [2, 1])
-        await db.add(1)
-        await db.add(2)
-        await db.add(3)
-        await db.delete(4)
-        assert.strict.deepEqual([...db.values()], [3, 2, 1])
+        assert.strict.deepEqual(db._oplog.values[0].payload.meta, meta)
       })
 
       it('.clear remove all values from set', async function () {
         assert.strict.deepEqual([...db.values()], [])
+        await db.clear({ meta })
+        await db.add(1)
+        await db.add(2)
+        await db.add(3)
+        assert.strict.deepEqual([...db.values()], [3, 2, 1])
         await db.add(1)
         await db.add(2)
         await db.add(3)
         await db.clear()
         assert.strict.deepEqual([...db.values()], [])
-        await db.add(1)
-        await db.clear()
-        await db.add(2)
-        await db.add(3)
-        assert.strict.deepEqual([...db.values()], [3, 2])
+        assert.strict.deepEqual(db._oplog.values[0].payload.meta, meta)
       })
 
       it('.size mirrors set.size', async function () {

@@ -23,16 +23,16 @@ class SetStore extends Store {
   get entries () { return this.index.entries.bind(this.index) }
   get forEach () { return this.index.forEach.bind(this.index) }
 
-  async add (value) {
-    return this._addOperation({ op: opcodes.ADD, value })
+  async add (value, { meta } = {}) {
+    return this._addOperation({ op: opcodes.ADD, value, meta })
   }
 
-  async delete (value) {
-    return this._addOperation({ op: opcodes.DELETE, value })
+  async delete (value, { meta } = {}) {
+    return this._addOperation({ op: opcodes.DELETE, value, meta })
   }
 
-  async clear () {
-    return this._addOperation({ op: opcodes.CLEAR })
+  async clear ({ meta } = {}) {
+    return this._addOperation({ op: opcodes.CLEAR, meta })
   }
 }
 
