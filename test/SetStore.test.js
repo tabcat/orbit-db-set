@@ -126,8 +126,9 @@ Object.keys(testAPIs).forEach(API => {
         await db.add(1)
         await db.add(2)
         await db.add(3)
-        db.forEach(x => a.push(x))
-        db.index.forEach(x => b.push(x))
+        const push = (array) => (a, b, c) => array.push({ a, b, c })
+        db.forEach(push(a))
+        db.index.forEach(push(b))
         assert.strict.deepEqual(a, b)
       })
 
