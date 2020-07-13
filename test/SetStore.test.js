@@ -51,6 +51,23 @@ Object.keys(testAPIs).forEach(API => {
       assert.strict.equal(SetStore.type, 'set')
     })
 
+    it('load entries', async () => {
+      const options = {
+        replicate: false,
+        maxHistory: 0,
+        path: dbPath
+      }
+      db = await orbitdb.open(dbAddr, options)
+      await db.load()
+      console.log(await db.add('asdf'))
+      console.log(db._oplog.values)
+      await db.close()
+
+      db = await orbitdb.open(dbAddr, options)
+      await db.load()
+      assert.strict.equal(db.has('asdf'), true)
+    })
+
     describe('Set Store Instance', function () {
       const meta = { yo: 123 }
 
