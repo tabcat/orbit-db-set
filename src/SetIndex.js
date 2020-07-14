@@ -14,6 +14,10 @@ class SetIndex {
 
   static get opcodes () { return opcodes }
 
+  get () {
+    return this._index
+  }
+
   updateIndex (oplog, onProgressCallback) {
     const entries = oplog.values.slice().reverse()
     const set = new Set()
