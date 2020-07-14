@@ -5,6 +5,8 @@ const Store = require('orbit-db-store')
 const SetIndex = require('./SetIndex')
 const { opcodes } = SetIndex
 
+const valueUndefinedYes = () => new Error('cannot add undefined to set')
+
 const type = 'set'
 
 class SetStore extends Store {
@@ -24,11 +26,13 @@ class SetStore extends Store {
   get forEach () { return this.index.forEach.bind(this.index) }
 
   async add (value, { meta } = {}) {
+    if (value === undefined) throw valueUndefinedYes()
     meta = meta ? { meta } : {}
     return this._addOperation({ op: opcodes.ADD, value, ...meta })
   }
 
   async delete (value, { meta } = {}) {
+    if (value === undefined) throw valueUndefinedYes()
     meta = meta ? { meta } : {}
     return this._addOperation({ op: opcodes.DELETE, value, ...meta })
   }
